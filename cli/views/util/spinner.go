@@ -10,6 +10,7 @@ import (
 	"github.com/charmbracelet/bubbles/spinner"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
+	"github.com/daytona/clients/cli/internal"
 	"github.com/daytona/clients/cli/views/common"
 	log "github.com/sirupsen/logrus"
 	"golang.org/x/term"
@@ -58,7 +59,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 }
 
 func WithSpinner(message string, fn func() error) error {
-	if isTTY() {
+	if isTTY() && !internal.NoInput {
 		p := start(message, false)
 		defer stop(p)
 	}
@@ -66,7 +67,7 @@ func WithSpinner(message string, fn func() error) error {
 }
 
 func WithInlineSpinner(message string, fn func() error) error {
-	if isTTY() {
+	if isTTY() && !internal.NoInput {
 		p := start(message, true)
 		defer stop(p)
 	}

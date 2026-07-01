@@ -10,6 +10,7 @@ import (
 	apiclient "github.com/daytona/clients/api-client-go"
 	apiclient_cli "github.com/daytona/clients/cli/apiclient"
 	"github.com/daytona/clients/cli/config"
+	"github.com/daytona/clients/cli/internal"
 	"github.com/daytona/clients/cli/views/common"
 	"github.com/daytona/clients/cli/views/organization"
 	"github.com/daytona/clients/cli/views/util"
@@ -23,6 +24,10 @@ var UseCmd = &cobra.Command{
 	RunE: func(cmd *cobra.Command, args []string) error {
 		var chosenOrganization *apiclient.Organization
 		ctx := context.Background()
+
+		if len(args) == 0 && internal.NoInput {
+			return fmt.Errorf("organization argument is required with --no-input; run `daytona organization use <id-or-name>`")
+		}
 
 		apiClient, err := apiclient_cli.GetApiClient(nil, nil)
 		if err != nil {

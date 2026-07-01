@@ -10,6 +10,7 @@ import (
 	"github.com/charmbracelet/bubbles/textinput"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
+	"github.com/daytona/clients/cli/internal"
 )
 
 type promptModel struct {
@@ -65,6 +66,10 @@ func (m promptModel) View() string {
 }
 
 func PromptForInput(prompt, title, desc string) (string, error) {
+	if err := internal.RequireInteractive("prompt", "provide the required value with a flag or environment variable"); err != nil {
+		return "", err
+	}
+
 	ti := textinput.New()
 	ti.Focus()
 	ti.CharLimit = 156

@@ -103,14 +103,12 @@ func UnblockStdOut() {
 func RegisterFormatFlag(cmd *cobra.Command) {
 	cmd.Flags().StringVarP(&FormatFlag, formatFlagName, formatFlagShortHand, FormatFlag, formatFlagDescription)
 	cmd.PreRun = func(cmd *cobra.Command, args []string) {
+		internal.SuppressVersionMismatchWarning = FormatFlag != "" || internal.NoInput
 		if FormatFlag != "" {
 			BlockStdOut()
 			// When a structured output format is requested, suppress
 			// noisy warnings such as version mismatch so scripts
 			// consuming json/yaml aren't broken.
-			internal.SuppressVersionMismatchWarning = true
-		} else {
-			internal.SuppressVersionMismatchWarning = false
 		}
 	}
 }

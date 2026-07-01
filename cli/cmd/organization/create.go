@@ -11,6 +11,7 @@ import (
 	apiclient "github.com/daytona/clients/api-client-go"
 	apiclient_cli "github.com/daytona/clients/cli/apiclient"
 	"github.com/daytona/clients/cli/config"
+	"github.com/daytona/clients/cli/internal"
 	"github.com/daytona/clients/cli/views/common"
 	"github.com/daytona/clients/cli/views/organization"
 	"github.com/spf13/cobra"
@@ -47,6 +48,13 @@ var CreateCmd = &cobra.Command{
 		case len(regions) == 1:
 			chosenRegion = &regions[0]
 		default:
+			if internal.NoInput {
+				return fmt.Errorf("--region is required with --no-input when multiple regions are available; run `daytona organization create %s --region <id-or-name>`", args[0])
+			}
+			if err := internal.RequireInteractive("region selection", "provide --region with a region id or name"); err != nil {
+				return err
+			}
+
 			var chosenRegionId string
 			var regionOptions []huh.Option[string]
 

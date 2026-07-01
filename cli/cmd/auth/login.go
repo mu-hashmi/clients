@@ -30,6 +30,10 @@ var LoginCmd = &cobra.Command{
 			return updateProfileWithLogin(nil, &apiKeyFlag)
 		}
 
+		if internal.NoInput {
+			return fmt.Errorf("login requires interactive input, but --no-input was provided; pass --api-key or set DAYTONA_API_KEY")
+		}
+
 		items := []view_common.SelectItem{
 			{Title: "Login with Browser", Desc: "Authenticate using OAuth in your browser"},
 			{Title: "Set Daytona API Key", Desc: "Authenticate using Daytona API key"},
@@ -143,6 +147,10 @@ func createInitialProfile(c *config.Config) (config.Profile, error) {
 }
 
 func login(ctx context.Context) (*oauth2.Token, error) {
+	if internal.NoInput {
+		return nil, fmt.Errorf("browser login requires interactive input, but --no-input was provided; pass --api-key or set DAYTONA_API_KEY")
+	}
+
 	provider, err := oidc.NewProvider(ctx, config.GetAuth0Domain())
 	if err != nil {
 		return nil, fmt.Errorf("failed to initialize OIDC provider: %w", err)

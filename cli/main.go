@@ -63,6 +63,7 @@ func init() {
 
 	rootCmd.CompletionOptions.HiddenDefaultCmd = true
 	rootCmd.PersistentFlags().BoolP("help", "", false, "help for daytona")
+	rootCmd.PersistentFlags().BoolVar(&internal.NoInput, "no-input", false, "Disable interactive prompts and browser-based flows")
 	rootCmd.Flags().BoolP("version", "v", false, "Display the version of Daytona")
 
 	rootCmd.PreRun = func(command *cobra.Command, args []string) {

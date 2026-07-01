@@ -6,6 +6,7 @@ package cmd
 import (
 	"fmt"
 
+	"github.com/daytona/clients/cli/internal"
 	"github.com/daytona/clients/cli/views/common"
 	"github.com/pkg/browser"
 	"github.com/spf13/cobra"
@@ -19,6 +20,11 @@ var DocsCmd = &cobra.Command{
 	Args:    cobra.NoArgs,
 	Aliases: []string{"documentation", "doc"},
 	RunE: func(cmd *cobra.Command, args []string) error {
+		if internal.NoInput {
+			fmt.Println(docsURL)
+			return nil
+		}
+
 		common.RenderInfoMessageBold(fmt.Sprintf("Opening the Daytona documentation in your default browser. If opening fails, you can go to %s manually.", common.LinkStyle.Render(docsURL)))
 		return browser.OpenURL(docsURL)
 	},

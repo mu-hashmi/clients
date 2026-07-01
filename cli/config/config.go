@@ -17,6 +17,7 @@ import (
 
 const DAYTONA_API_URL_ENV_VAR = "DAYTONA_API_URL"
 const DAYTONA_API_KEY_ENV_VAR = "DAYTONA_API_KEY"
+const defaultDaytonaApiUrl = "https://app.daytona.io/api"
 
 type Config struct {
 	ActiveProfileId string    `json:"activeProfile"`
@@ -52,7 +53,9 @@ func GetConfig() (*Config, error) {
 	_, err = os.Stat(configFilePath)
 	if os.IsNotExist(err) {
 		// Setup autocompletion when adding initial config
-		_ = cmd.DetectShellAndSetupAutocompletion(cmd.AutoCompleteCmd.Root())
+		if !internal.NoInput {
+			_ = cmd.DetectShellAndSetupAutocompletion(cmd.AutoCompleteCmd.Root())
+		}
 
 		config := &Config{}
 		return config, config.Save()
@@ -79,14 +82,13 @@ func GetConfig() (*Config, error) {
 var ErrNoProfilesFound = errors.New("no profiles found. Run `daytona login` to authenticate")
 
 func (c *Config) GetActiveProfile() (Profile, error) {
-	apiUrl := os.Getenv(DAYTONA_API_URL_ENV_VAR)
 	apiKey := os.Getenv(DAYTONA_API_KEY_ENV_VAR)
 
-	if apiUrl != "" && apiKey != "" {
+	if apiKey != "" {
 		return Profile{
 			Id: "env",
 			Api: ServerApi{
-				Url: apiUrl,
+				Url: GetDaytonaApiUrl(),
 				Key: &apiKey,
 			},
 		}, nil
@@ -286,6 +288,9 @@ func GetDaytonaApiUrl() string {
 	daytonaApiUrl := os.Getenv("DAYTONA_API_URL")
 	if daytonaApiUrl == "" {
 		daytonaApiUrl = internal.DaytonaApiUrl
+	}
+	if daytonaApiUrl == "" {
+		daytonaApiUrl = defaultDaytonaApiUrl
 	}
 
 	return daytonaApiUrl

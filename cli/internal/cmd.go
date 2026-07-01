@@ -10,4 +10,5 @@ const (
 
 var (
 	SuppressVersionMismatchWarning = false
+	NoInput                        = false
 )

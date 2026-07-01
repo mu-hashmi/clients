@@ -11,6 +11,7 @@ import (
 	apiclient_cli "github.com/daytona/clients/cli/apiclient"
 	"github.com/daytona/clients/cli/cmd/common"
 	"github.com/daytona/clients/cli/config"
+	"github.com/daytona/clients/cli/internal"
 	view_common "github.com/daytona/clients/cli/views/common"
 	"github.com/daytona/clients/cli/views/organization"
 	"github.com/daytona/clients/cli/views/util"
@@ -25,6 +26,10 @@ var DeleteCmd = &cobra.Command{
 	RunE: func(cmd *cobra.Command, args []string) error {
 		var chosenOrganization *apiclient.Organization
 		ctx := context.Background()
+
+		if len(args) == 0 && internal.NoInput {
+			return fmt.Errorf("organization argument is required with --no-input; run `daytona organization delete <id-or-name>`")
+		}
 
 		apiClient, err := apiclient_cli.GetApiClient(nil, nil)
 		if err != nil {

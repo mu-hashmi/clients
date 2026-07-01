@@ -15,9 +15,10 @@ daytona volume create [NAME] [flags]
 ### Options inherited from parent commands
 
 ```
-      --help   help for daytona
+      --help       help for daytona
+      --no-input   Disable interactive prompts and browser-based flows
 ```
 
 ### SEE ALSO
 
-* [daytona volume](daytona_volume.md)  - Manage Daytona volumes
+* [daytona volume](daytona_volume.md)	 - Manage Daytona volumes

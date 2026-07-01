@@ -2,12 +2,15 @@ name: daytona volume
 synopsis: Manage Daytona volumes
 description: Commands for managing Daytona volumes
 inherited_options:
-  - name: help
-    default_value: 'false'
-    usage: help for daytona
+    - name: help
+      default_value: "false"
+      usage: help for daytona
+    - name: no-input
+      default_value: "false"
+      usage: Disable interactive prompts and browser-based flows
 see_also:
-  - daytona - Daytona CLI
-  - daytona volume create - Create a volume
-  - daytona volume delete - Delete a volume
-  - daytona volume get - Get volume details
-  - daytona volume list - List all volumes
+    - daytona - Daytona CLI
+    - daytona volume create - Create a volume
+    - daytona volume delete - Delete a volume
+    - daytona volume get - Get volume details
+    - daytona volume list - List all volumes

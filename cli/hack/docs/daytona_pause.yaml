@@ -1,6 +1,6 @@
-name: daytona archive
-synopsis: Archive a sandbox
-usage: daytona archive [SANDBOX_ID] | [SANDBOX_NAME] [flags]
+name: daytona pause
+synopsis: Pause a sandbox
+usage: daytona pause [SANDBOX_ID] | [SANDBOX_NAME] [flags]
 inherited_options:
     - name: help
       default_value: "false"

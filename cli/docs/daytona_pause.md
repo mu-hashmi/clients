@@ -1,9 +1,9 @@
-## daytona start
+## daytona pause
 
-Start a sandbox
+Pause a sandbox
 
 ```
-daytona start [SANDBOX_ID] | [SANDBOX_NAME] [flags]
+daytona pause [SANDBOX_ID] | [SANDBOX_NAME] [flags]
 ```
 
 ### Options inherited from parent commands

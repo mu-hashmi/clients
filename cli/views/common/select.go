@@ -6,6 +6,7 @@ package common
 import (
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
+	"github.com/daytona/clients/cli/internal"
 )
 
 // SelectItem represents an item in the selection list
@@ -94,6 +95,10 @@ func (m SelectModel) View() string {
 // Select displays a selection prompt with the given title and items
 // Returns the selected item's title and any error that occurred
 func Select(title string, items []SelectItem) (string, error) {
+	if err := internal.RequireInteractive("selection prompt", "provide the required value with a flag or argument"); err != nil {
+		return "", err
+	}
+
 	p := tea.NewProgram(NewSelectModel(title, items), tea.WithAltScreen())
 	m, err := p.Run()
 	if err != nil {

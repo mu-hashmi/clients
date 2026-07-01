@@ -6,10 +6,15 @@ package organization
 import (
 	"github.com/charmbracelet/huh"
 	apiclient "github.com/daytona/clients/api-client-go"
+	"github.com/daytona/clients/cli/internal"
 	"github.com/daytona/clients/cli/views/common"
 )
 
 func GetOrganizationIdFromPrompt(organizationList []apiclient.Organization) (*apiclient.Organization, error) {
+	if err := internal.RequireInteractive("organization selection", "provide the organization id or name as an argument"); err != nil {
+		return nil, err
+	}
+
 	var chosenOrganizationId string
 	var organizationOptions []huh.Option[string]
 
